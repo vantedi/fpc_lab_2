@@ -9,15 +9,15 @@ bool resourceAvailable = false;
 
 void worker(int id) {
     std::unique_lock<std::mutex> lock(mtx);
-    std::cout << "Поток " << id << " ожидает" << std::endl;
+    std::cout << "РџРѕС‚РѕРє " << id << " РѕР¶РёРґР°РµС‚" << std::endl;
     cv.wait(lock, [] { return resourceAvailable; });
 
-    std::cout << "Поток " << id << " получил ресурс" << std::endl;
+    std::cout << "РџРѕС‚РѕРє " << id << " РїРѕР»СѓС‡РёР» СЂРµСЃСѓСЂСЃ" << std::endl;
 
-    //имитация выполнения работы
+    //РёРјРёС‚Р°С†РёСЏ РІС‹РїРѕР»РЅРµРЅРёСЏ СЂР°Р±РѕС‚С‹
     std::this_thread::sleep_for(std::chrono::seconds(1));
 
-    std::cout << "Поток " << id << " освободил ресурс" << std::endl;
+    std::cout << "РџРѕС‚РѕРє " << id << " РѕСЃРІРѕР±РѕРґРёР» СЂРµСЃСѓСЂСЃ" << std::endl;
 }
 
 int main() {
@@ -30,12 +30,12 @@ int main() {
     for (int i = 0; i < numThreads; i++)
         threads[i] = std::thread(worker, i);
 
-    //время на запуск потока
+    //РІСЂРµРјСЏ РЅР° Р·Р°РїСѓСЃРє РїРѕС‚РѕРєР°
     std::this_thread::sleep_for(std::chrono::seconds(2));
 
     {
         std::lock_guard<std::mutex> lock(mtx);
-        std::cout << "Ресурс теперь доступен" << std::endl;
+        std::cout << "Р РµСЃСѓСЂСЃ С‚РµРїРµСЂСЊ РґРѕСЃС‚СѓРїРµРЅ" << std::endl;
         resourceAvailable = true;
     }
 
